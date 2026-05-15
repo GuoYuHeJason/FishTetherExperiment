@@ -1,0 +1,12 @@
+- ggiraph
+- ggplot2
+- gridExtra
+- here
+- janitor
+- RDCOMClient
+- readr
+- rmarkdown
+- shiny
+- tidyr
+- tidyverse
+- usethis

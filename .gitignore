@@ -72,3 +72,5 @@ ExploratoryAnalysis/FishTrack-EDA-Tool/rsconnect
 # Ignore Apple specific files
 *.icloud
 *.DS_Store
+
+.vscode

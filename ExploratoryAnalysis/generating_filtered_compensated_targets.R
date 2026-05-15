@@ -1,6 +1,9 @@
 source("E:/Projects/FishTetherExperiment/Analysis_Scripts/custom_functions.R", echo=F)
 # read_tidy_export_EVfiles("LT016")
 
+# creates accepted_6dB_TS_compensation_singletargets_summary.csv and accepted_6dB_TS_compensation_singletargets.csv
+# already have these files, but this is the code to generate them if needed.
+
 library(dplyr)
 fish<-dir("Data")
 sumtable <- data.frame(Fish = NULL, Npings = NULL, Npings_filtered = NULL)
