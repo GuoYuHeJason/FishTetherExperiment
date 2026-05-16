@@ -7,7 +7,7 @@ set.seed(123)
 
 fish_ids <- c("LT016", "LT015", "LWF007", "LWF010", "SMB005", "SMB006")
 output_dir <- "ExportedFigures"
-max_sample_size <- 10000
+max_rows_per_fish <- 10000
 required_join_keys <- c("fishNum", "FishTrack", "Frequency")
 
 if (!dir.exists(output_dir)) {
@@ -32,17 +32,17 @@ for (fish_id in fish_ids) {
   }
 
   tsdiff <- inner_join(comp, uncomp, by = required_join_keys) %>%
-    mutate(TSdifference = TS - uncompTS)
+    mutate(ts_difference = TS - uncompTS)
 
-  if (nrow(tsdiff) > max_sample_size) {
-    tsdiff <- tsdiff[sample(nrow(tsdiff), max_sample_size), ]
+  if (nrow(tsdiff) > max_rows_per_fish) {
+    tsdiff <- tsdiff[sample(nrow(tsdiff), max_rows_per_fish), ]
   }
 
-  p <- ggplot(tsdiff, aes(Frequency, TSdifference)) +
+  p <- ggplot(tsdiff, aes(Frequency, ts_difference)) +
     geom_point(alpha = 0.01) +
     labs(
       title = paste("TS compensation across frequency -", fish_id),
-      x = "Frequency (kHz)",
+      x = "Frequency",
       y = "TS difference (compensated - uncompensated, dB)"
     )
 
