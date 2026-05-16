@@ -2,6 +2,8 @@ for large csv, rainbow csv stops working, preview by head.
 
 Use load Rdata instead of read csv.
 
+activate renv after startup to avoid language server timeout.
+
 Reflected sound is measured in negative decibels (dB) because decibels are a logarithmic ratio comparing the reflected sound's intensity to a reference level (usually 0 dB) rather than an absolute measure of volume. A negative value indicates the reflected sound is weaker than the original source due to energy loss during reflection, or it is softer than the reference threshold
 
 I want to first clear up some confusion about the pyhsics of the measurements.

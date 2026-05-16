@@ -74,3 +74,4 @@ ExploratoryAnalysis/FishTrack-EDA-Tool/rsconnect
 *.DS_Store
 
 .vscode
+.Rprofile
