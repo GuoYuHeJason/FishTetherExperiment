@@ -111,3 +111,5 @@ safe_write_csv(
 safe_write_csv(fish_level_summary, "ExploratoryAnalysis/fish_level_summary.csv")
 safe_write_csv(species_summary, "ExploratoryAnalysis/species_summary_statistics.csv")
 safe_write_csv(overall_summary, "ExploratoryAnalysis/overall_summary_statistics.csv")
+
+cat("Summary statistics generation completed successfully.\n")
