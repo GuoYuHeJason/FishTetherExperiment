@@ -9,9 +9,9 @@ library(readr)
 library(ggplot2)
 library(ggiraph)
 library(gridExtra)
-load("processed_data.Rdata")
+load("ProcessedData/processed_AnalysisData.Rdata")
 
-trackdat <- processed_data %>% 
+trackdat <- processed_AnalysisData %>% 
   mutate(Quadrat = case_when(
     Angle_major_axis >= 0 & Angle_minor_axis >=0 ~ "NE",
     Angle_major_axis >= 0 & Angle_minor_axis < 0 ~ "NW",
