@@ -45,6 +45,7 @@ safe_write_csv <- function(data, path) {
   tryCatch(
     {
       write_csv(data, path)
+      cat(paste("Wrote", path, "\n"))
     },
     error = function(e) {
       stop(paste("Failed to write CSV:", path, "|", conditionMessage(e)))
@@ -102,8 +103,3 @@ safe_write_csv(species_fish_counts, "ExploratoryAnalysis/species_fish_counts.csv
 safe_write_csv(fish_ping_counts, "ExploratoryAnalysis/fish_ping_counts.csv")
 safe_write_csv(species_summary_statistics, "ExploratoryAnalysis/species_summary_statistics.csv")
 safe_write_csv(overall_summary, "ExploratoryAnalysis/overall_summary_statistics.csv")
-
-cat("Wrote ExploratoryAnalysis/species_fish_counts.csv\n")
-cat("Wrote ExploratoryAnalysis/fish_ping_counts.csv\n")
-cat("Wrote ExploratoryAnalysis/species_summary_statistics.csv\n")
-cat("Wrote ExploratoryAnalysis/overall_summary_statistics.csv\n")
