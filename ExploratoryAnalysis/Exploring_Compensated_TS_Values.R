@@ -35,7 +35,7 @@ for (fish_id in fish_ids) {
     mutate(ts_difference = TS - uncompTS)
 
   if (nrow(ts_difference_data) > max_rows_per_fish) {
-    ts_difference_data <- ts_difference_data[sample(nrow(ts_difference_data), max_rows_per_fish), ]
+    ts_difference_data <- ts_difference_data[sample.int(nrow(ts_difference_data), max_rows_per_fish), ]
   }
 
   p <- ggplot(ts_difference_data, aes(x = Frequency, y = ts_difference)) +
