@@ -57,7 +57,7 @@ fish_level_summary <- track_data %>%
   group_by(fishNum, species) %>%
   summarize(
     n_pings = n_distinct(pingNumber),
-    n_distinct_tracks = n_distinct(FishTrack),
+    n_tracks = n_distinct(FishTrack),
     n_targets = n(),
     ping_number_min = safe_min(pingNumber),
     ping_number_max = safe_max(pingNumber),
@@ -67,12 +67,12 @@ fish_level_summary <- track_data %>%
   ) %>%
   arrange(species, fishNum)
 
-species_summary_statistics <- track_data %>%
+species_summary <- track_data %>%
   group_by(species) %>%
   summarize(
     n_fish = n_distinct(fishNum),
     n_pings = n_distinct(pingNumber),
-    n_distinct_tracks = n_distinct(FishTrack),
+    n_tracks = n_distinct(FishTrack),
     n_targets = n(),
     ts_mean_avg = mean(TS_mean, na.rm = TRUE),
     ts_mean_sd = sd(TS_mean, na.rm = TRUE),
@@ -83,12 +83,15 @@ species_summary_statistics <- track_data %>%
   ) %>%
   arrange(species)
 
+species_fish_counts <- species_summary %>%
+  select(species, n_fish, n_targets, n_pings, n_tracks)
+
 overall_summary <- tibble(
   n_species = n_distinct(track_data$species),
   n_fish = n_distinct(track_data$fishNum),
   n_targets = nrow(track_data),
   n_pings = n_distinct(track_data$pingNumber),
-  n_distinct_tracks = n_distinct(track_data$FishTrack),
+  n_tracks = n_distinct(track_data$FishTrack),
   ts_mean_overall_mean = mean(track_data$TS_mean, na.rm = TRUE),
   ts_mean_overall_sd = sd(track_data$TS_mean, na.rm = TRUE),
   ts_mean_overall_min = safe_min(track_data$TS_mean),
@@ -96,11 +99,7 @@ overall_summary <- tibble(
   ts_mean_overall_max = safe_max(track_data$TS_mean)
 )
 
-safe_write_csv(
-  species_summary_statistics %>%
-    select(species, n_fish, n_targets, n_pings, n_distinct_tracks),
-  "ExploratoryAnalysis/species_fish_counts.csv"
-)
+safe_write_csv(species_fish_counts, "ExploratoryAnalysis/species_fish_counts.csv")
 safe_write_csv(fish_level_summary, "ExploratoryAnalysis/fish_ping_counts.csv")
-safe_write_csv(species_summary_statistics, "ExploratoryAnalysis/species_summary_statistics.csv")
+safe_write_csv(species_summary, "ExploratoryAnalysis/species_summary_statistics.csv")
 safe_write_csv(overall_summary, "ExploratoryAnalysis/overall_summary_statistics.csv")
