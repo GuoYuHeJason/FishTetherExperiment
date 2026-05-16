@@ -8,7 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(dplyr)
-source("E:/Projects/FishTetherExperiment/Analysis_Scripts/custom_functions.R", echo=F)
+source("Analysis_Scripts/custom_functions.R", echo=F)
 library(ggplot2)
 ```
 
