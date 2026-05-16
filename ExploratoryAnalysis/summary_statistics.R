@@ -1,7 +1,13 @@
 library(dplyr)
 library(readr)
 
-load("ProcessedData/processed_AnalysisData.Rdata")
+rdata_path <- "ProcessedData/processed_AnalysisData.Rdata"
+
+if (!file.exists(rdata_path)) {
+  stop(paste("Input file does not exist:", rdata_path))
+}
+
+load(rdata_path)
 
 if (!exists("processed_data")) {
   stop("Expected object `processed_data` was not found in ProcessedData/processed_AnalysisData.Rdata.")
@@ -33,6 +39,17 @@ safe_max <- function(x) {
     return(NA_real_)
   }
   max(x, na.rm = TRUE)
+}
+
+safe_write_csv <- function(data, path) {
+  tryCatch(
+    {
+      write_csv(data, path)
+    },
+    error = function(e) {
+      stop(paste("Failed to write CSV:", path, "|", conditionMessage(e)))
+    }
+  )
 }
 
 fish_ping_counts <- track_data %>%
@@ -81,10 +98,10 @@ overall_summary <- tibble(
   ts_mean_overall_max = safe_max(track_data$TS_mean)
 )
 
-write_csv(species_fish_counts, "ExploratoryAnalysis/species_fish_counts.csv")
-write_csv(fish_ping_counts, "ExploratoryAnalysis/fish_ping_counts.csv")
-write_csv(species_summary_statistics, "ExploratoryAnalysis/species_summary_statistics.csv")
-write_csv(overall_summary, "ExploratoryAnalysis/overall_summary_statistics.csv")
+safe_write_csv(species_fish_counts, "ExploratoryAnalysis/species_fish_counts.csv")
+safe_write_csv(fish_ping_counts, "ExploratoryAnalysis/fish_ping_counts.csv")
+safe_write_csv(species_summary_statistics, "ExploratoryAnalysis/species_summary_statistics.csv")
+safe_write_csv(overall_summary, "ExploratoryAnalysis/overall_summary_statistics.csv")
 
 cat("Wrote ExploratoryAnalysis/species_fish_counts.csv\n")
 cat("Wrote ExploratoryAnalysis/fish_ping_counts.csv\n")
