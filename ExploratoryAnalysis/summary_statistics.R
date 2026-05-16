@@ -35,17 +35,6 @@ safe_max <- function(x) {
   max(x, na.rm = TRUE)
 }
 
-species_summary_counts <- track_data %>%
-  group_by(species) %>%
-  summarize(
-    n_fish = n_distinct(fishNum),
-    n_targets = n(),
-    n_pings = n_distinct(pingNumber),
-    n_distinct_tracks = n_distinct(FishTrack),
-    .groups = "drop"
-  ) %>%
-  arrange(species)
-
 fish_ping_counts <- track_data %>%
   group_by(fishNum, species) %>%
   summarize(
@@ -76,6 +65,9 @@ species_summary_statistics <- track_data %>%
   ) %>%
   arrange(species)
 
+species_fish_counts <- species_summary_statistics %>%
+  select(species, n_fish, n_targets, n_pings, n_distinct_tracks)
+
 overall_summary <- tibble(
   n_species = n_distinct(track_data$species),
   n_fish = n_distinct(track_data$fishNum),
@@ -89,7 +81,7 @@ overall_summary <- tibble(
   ts_mean_overall_max = safe_max(track_data$TS_mean)
 )
 
-write_csv(species_summary_counts, "ExploratoryAnalysis/species_fish_counts.csv")
+write_csv(species_fish_counts, "ExploratoryAnalysis/species_fish_counts.csv")
 write_csv(fish_ping_counts, "ExploratoryAnalysis/fish_ping_counts.csv")
 write_csv(species_summary_statistics, "ExploratoryAnalysis/species_summary_statistics.csv")
 write_csv(overall_summary, "ExploratoryAnalysis/overall_summary_statistics.csv")
