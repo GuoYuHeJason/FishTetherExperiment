@@ -1,0 +1,41 @@
+library(dplyr)
+library(ggplot2)
+
+source("Analysis_Scripts/custom_functions.R", echo = FALSE)
+
+set.seed(123)
+
+fish_ids <- c("LT016", "LT015", "LWF007", "LWF010", "SMB005", "SMB006")
+output_dir <- "ExportedFigures"
+
+if (!dir.exists(output_dir)) {
+  dir.create(output_dir, recursive = TRUE)
+}
+
+for (fish_id in fish_ids) {
+  comp <- read_comp_freq_response(fish_id)
+  uncomp <- read_uncomp_freq_response(fish_id)
+
+  tsdiff <- inner_join(comp, uncomp, by = c("fishNum", "FishTrack", "Frequency")) %>%
+    mutate(TSdifference = TS - uncompTS)
+
+  if (nrow(tsdiff) > 10000) {
+    tsdiff <- tsdiff[sample(nrow(tsdiff), 10000), ]
+  }
+
+  p <- ggplot(tsdiff, aes(Frequency, TSdifference)) +
+    geom_point(alpha = 0.01) +
+    labs(
+      title = paste("TS compensation across frequency -", fish_id),
+      x = "Frequency (kHz)",
+      y = "TS difference (compensated - uncompensated, dB)"
+    )
+
+  ggsave(
+    filename = file.path(output_dir, paste0("TS_compensation_across_frequency_", fish_id, ".png")),
+    plot = p,
+    width = 8,
+    height = 5,
+    dpi = 300
+  )
+}
