@@ -31,14 +31,14 @@ for (fish_id in fish_ids) {
     )
   }
 
-  tsdiff <- inner_join(comp, uncomp, by = required_join_keys) %>%
+  ts_difference_data <- inner_join(comp, uncomp, by = required_join_keys) %>%
     mutate(ts_difference = TS - uncompTS)
 
-  if (nrow(tsdiff) > max_rows_per_fish) {
-    tsdiff <- tsdiff[sample(nrow(tsdiff), max_rows_per_fish), ]
+  if (nrow(ts_difference_data) > max_rows_per_fish) {
+    ts_difference_data <- ts_difference_data[sample(nrow(ts_difference_data), max_rows_per_fish), ]
   }
 
-  p <- ggplot(tsdiff, aes(Frequency, ts_difference)) +
+  p <- ggplot(ts_difference_data, aes(Frequency, ts_difference)) +
     geom_point(alpha = 0.01) +
     labs(
       title = paste("TS compensation across frequency -", fish_id),
