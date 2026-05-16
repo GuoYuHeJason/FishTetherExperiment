@@ -18,8 +18,17 @@ for (fish_id in fish_ids) {
   comp <- read_comp_freq_response(fish_id)
   uncomp <- read_uncomp_freq_response(fish_id)
 
-  if (!all(required_join_keys %in% names(comp)) || !all(required_join_keys %in% names(uncomp))) {
-    stop(paste("Missing required join keys for fish", fish_id))
+  missing_comp_keys <- setdiff(required_join_keys, names(comp))
+  missing_uncomp_keys <- setdiff(required_join_keys, names(uncomp))
+
+  if (length(missing_comp_keys) > 0 || length(missing_uncomp_keys) > 0) {
+    stop(
+      paste0(
+        "Missing required join keys for fish ", fish_id,
+        "; comp missing: [", paste(missing_comp_keys, collapse = ", "), "]",
+        "; uncomp missing: [", paste(missing_uncomp_keys, collapse = ", "), "]"
+      )
+    )
   }
 
   tsdiff <- inner_join(comp, uncomp, by = required_join_keys) %>%
