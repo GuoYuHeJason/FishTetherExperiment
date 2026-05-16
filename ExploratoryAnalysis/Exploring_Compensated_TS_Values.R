@@ -2,7 +2,7 @@ library(dplyr)
 library(ggplot2)
 
 source("Analysis_Scripts/custom_functions.R", echo = FALSE)
-
+# uses custom functions that read from individual fish files, can't be generalized.
 set.seed(123)
 
 fish_ids <- c("LT016", "LT015", "LWF007", "LWF010", "SMB005", "SMB006")
