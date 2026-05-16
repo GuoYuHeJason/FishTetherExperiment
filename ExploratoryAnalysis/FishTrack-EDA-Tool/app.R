@@ -11,6 +11,7 @@ library(ggiraph)
 library(gridExtra)
 load("ProcessedData/processed_AnalysisData.Rdata")
 
+# rdata object is called "processed_data", different from file name
 trackdat <- processed_data %>% 
   mutate(Quadrat = case_when(
     Angle_major_axis >= 0 & Angle_minor_axis >=0 ~ "NE",
