@@ -63,6 +63,9 @@ fish_level_summary <- track_data %>%
     ping_number_max = safe_max(pingNumber),
     ts_mean_avg = mean(TS_mean, na.rm = TRUE),
     ts_mean_sd = sd(TS_mean, na.rm = TRUE),
+    ts_mean_min = safe_min(TS_mean),
+    ts_mean_median = median(TS_mean, na.rm = TRUE),
+    ts_mean_max = safe_max(TS_mean),
     .groups = "drop"
   ) %>%
   arrange(species, fishNum)
@@ -100,6 +103,11 @@ overall_summary <- tibble(
 )
 
 safe_write_csv(species_fish_counts, "ExploratoryAnalysis/species_fish_counts.csv")
-safe_write_csv(fish_level_summary, "ExploratoryAnalysis/fish_ping_counts.csv")
+safe_write_csv(
+  fish_level_summary %>%
+    select(fishNum, species, n_pings, n_tracks, n_targets),
+  "ExploratoryAnalysis/fish_ping_counts.csv"
+)
+safe_write_csv(fish_level_summary, "ExploratoryAnalysis/fish_level_summary.csv")
 safe_write_csv(species_summary, "ExploratoryAnalysis/species_summary_statistics.csv")
 safe_write_csv(overall_summary, "ExploratoryAnalysis/overall_summary_statistics.csv")
