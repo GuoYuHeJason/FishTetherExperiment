@@ -11,7 +11,7 @@ library(ggiraph)
 library(gridExtra)
 load("ProcessedData/processed_AnalysisData.Rdata")
 
-trackdat <- processed_AnalysisData %>% 
+trackdat <- processed_data %>% 
   mutate(Quadrat = case_when(
     Angle_major_axis >= 0 & Angle_minor_axis >=0 ~ "NE",
     Angle_major_axis >= 0 & Angle_minor_axis < 0 ~ "NW",
@@ -149,5 +149,5 @@ server <- function(input, output) {
 
 # Run the application 
 shinyApp(ui = ui, server = server)
-
-# end
+print("Shiny app launched successfully.")
+# shiny::runApp(list(ui = ui, server = server), launch.browser = TRUE)
