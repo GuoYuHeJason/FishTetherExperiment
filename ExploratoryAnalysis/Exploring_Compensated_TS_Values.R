@@ -38,7 +38,7 @@ for (fish_id in fish_ids) {
     ts_difference_data <- ts_difference_data[sample(nrow(ts_difference_data), max_rows_per_fish), ]
   }
 
-  p <- ggplot(ts_difference_data, aes(Frequency, ts_difference)) +
+  p <- ggplot(ts_difference_data, aes(x = Frequency, y = ts_difference)) +
     geom_point(alpha = 0.01) +
     labs(
       title = paste("TS compensation across frequency -", fish_id),
