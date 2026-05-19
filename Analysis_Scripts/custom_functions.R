@@ -4,7 +4,7 @@
 
 # read_tidy_export_EVfiles
 # Description: imports individual fish ev exports
-## compensated TS frequency response
+## uncompensated TS frequency response
 ## single target file
 ## fish track regions
 ## fish bio data
@@ -19,7 +19,7 @@ read_tidy_export_EVfiles <- function(getFishID) {
   
   fishbio <- read_csv("NonPingData/fishInfo_20220912.csv")
   
-  freqLong <- read_comp_freq_response(getFishID)
+  freqLong <- read_uncomp_freq_response(getFishID)
   
   sinTar <- read.csv(paste0("Data/", getFishID, "/ExportedFishTracks (targets).csv")) %>% # Bring in single target data
     mutate(FishTrack = paste(Region_name, Ping_number, sep = "_")) %>%
@@ -53,7 +53,7 @@ read_tidy_export_EVfiles <- function(getFishID) {
   # Pivot frequency response data wide, join all data together
   freqWide <- freqLong %>%
     mutate(Frequency = paste0("F", freqLong$Frequency)) %>%
-    pivot_wider(names_from = Frequency, values_from = TS) # values_fn = length necessary to create csv file
+    pivot_wider(names_from = Frequency, values_from = uncompTS) # values_fn = length necessary to create csv file
   
   freqWideDat <- inner_join(fishbio, sinTar, by = "fishNum") %>%
     left_join(freqWide, by = c("fishNum", "FishTrack")) %>%
